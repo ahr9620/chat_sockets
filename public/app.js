@@ -40,6 +40,23 @@ socket=io();
     let msgInput = document.getElementById('msg-input');
     let sendButton = document.getElementById('send-button');
 
+
+
+
+    //creating new buttons FOR CHRISSY TO REFERENCE
+    let dislikeButton = document.getElementById('dislike-button');
+    let likeButton = document.getElementById('like-button');
+
+    if (likeButton) likeButton.addEventListener('click', () => console.log('Like pressed'));
+    if (dislikeButton) dislikeButton.addEventListener('click', () => console.log('Dislike pressed'));
+    // These should work in console log to start
+
+
+
+
+
+
+
     sendButton.addEventListener('click', function () {
         let curName = nameInput.value;
         let curMsg = msgInput.value;
