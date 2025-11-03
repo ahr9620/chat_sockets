@@ -34,6 +34,26 @@ socket=io();
         //Add a bit of auto scroll for the chat box
         chatBox.scrollTop = chatBox.scrollHeight;
     });
+
+     // Listen for confirmation of connection p5 connection
+  socket.on('connect', function() {
+    console.log("Connected");
+    // Send initial user data
+    socket.emit('userData', { name: userName, x: mouseX, y: mouseY });
+  });
+
+  // Listen for messages named 'userData' from the server
+  socket.on('userData', function(data) {
+    users[data.id] = data;
+  });
+
+  // Listen for user disconnection
+  socket.on('userDisconnected', function(userId) {
+    delete users[userId];
+  });
+
+
+
     
     /* --- Code to SEND a socket message to the Server --- */
     let nameInput = document.getElementById('name-input')
@@ -70,7 +90,7 @@ socket=io();
 
 
 
-
+//p5 sketch
 
 //drawing cursor position of multiple users
 
@@ -85,22 +105,6 @@ function setup() {
   // Open and connect socket
 //   socket = io();
 
-  // Listen for confirmation of connection
-  socket.on('connect', function() {
-    console.log("Connected");
-    // Send initial user data
-    socket.emit('userData', { name: userName, x: mouseX, y: mouseY });
-  });
-
-  // Listen for messages named 'userData' from the server
-  socket.on('userData', function(data) {
-    users[data.id] = data;
-  });
-
-  // Listen for user disconnection
-  socket.on('userDisconnected', function(userId) {
-    delete users[userId];
-  });
 }
 
 function draw() {
@@ -110,6 +114,8 @@ function draw() {
 
   // Draw all users
   for (let id in users) {
+    // debugger; 
+
     let user = users[id];
     fill(0);
     ellipse(user.x, user.y, 10, 10);
